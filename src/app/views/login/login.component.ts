@@ -21,6 +21,17 @@ export class LoginComponent implements OnInit {
   mensagem = ""
 
   receberDados() {
+
+    const listaPalvras: string[] = ["select ", "from ", "drop ", "or ", "having ", "group ", "by ", "insert ", "exec ", "\"", "\'", "==", "#", "*", ";"]
+
+    listaPalvras.forEach(palavra => {
+      if (this.userModel.email?.toLowerCase().includes(palavra)) {
+        this.mensagem = "Dados inválidos"
+
+        return;
+      }
+    });
+
     this.loginService.login(this.userModel).subscribe((response) => {
       console.log("Deu certo")
       this.router.navigateByUrl("/")
@@ -35,8 +46,6 @@ export class LoginComponent implements OnInit {
       } else {
         this.mensagem = respostaErro.error
       }
-
-
 
     })
 
